@@ -14,11 +14,14 @@ import pygame
 
 
 def sound_alarm(path):
-    pygame.mixer.init()
-    pygame.mixer.music.load(path)
-    pygame.mixer.music.play()
-    while pygame.mixer.music.get_busy():
-        time.sleep(0.1)
+    try:
+        if not pygame.mixer.get_init():
+            pygame.mixer.init()
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.play(-1)
+        print(f"[INFO] Phát cảnh báo từ: {path}")
+    except Exception as e:
+        print(f"[ERROR] Không thể phát âm thanh: {e}")
 
 
 def eye_aspect_ratio(eye):
@@ -131,7 +134,7 @@ while True:
                     if args["alarm"] != "":
                         t = Thread(target=sound_alarm,
                                    args=(args["alarm"],))
-                        t.deamon = True
+                        t.daemon = True
                         t.start()
 
                 # draw an alarm on the frame
@@ -142,7 +145,9 @@ while True:
         # threshold, so reset the counter and alarm
         else:
             COUNTER = 0
-            ALARM_ON = False
+            if ALARM_ON:
+                ALARM_ON = False
+                pygame.mixer.music.stop()  # Dừng âm thanh khi không còn buồn ngủ
 
         # draw the computed eye aspect ratio on the frame to help
         # with debugging and setting the correct eye aspect ratio
