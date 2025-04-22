@@ -1,0 +1,51 @@
+ScreenManager:
+    MenuScreen:
+    CameraScreen:
+
+<MenuScreen>:
+    name: "menu"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+        padding: 50
+
+        Label:
+            text: "Phát hiện buồn ngủ!!"
+            font_size: 28
+
+        Button:
+            text: "Khởi động"
+            font_size: 20
+            on_press:
+                app.root.current = "camera"
+                app.root.get_screen("camera").ids.camlayout.start_detect()
+
+<CameraScreen>:
+    name: "camera"
+
+    CamLayout:
+        id: camlayout
+
+<CamLayout>:
+    orientation: 'vertical'
+
+    Image:
+        id: camera_view
+        allow_stretch: True
+        keep_ratio: True
+
+    Label:
+        id: status_label
+        text: "EAR: --"
+        font_size: 20
+        size_hint_y: None
+        height: "50dp"
+
+    Button:
+        text: "Quay về trang chính"
+        size_hint_y: None
+        height: "50dp"
+        font_size: 18
+        on_press:
+            root.stop_detect()
+            app.root.current = "menu"
