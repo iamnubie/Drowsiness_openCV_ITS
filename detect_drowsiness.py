@@ -27,7 +27,7 @@ def eye_aspect_ratio(eye):
 
 # Cấu hình
 EYE_AR_THRESH = 0.3
-EYE_AR_CONSEC_FRAMES = 48
+EYE_AR_CONSEC_FRAMES = 64
 COUNTER = 0
 ALARM_ON = False
 ALARM_SOUND = "alarm2.wav"  # thay bằng đường dẫn file âm thanh của bạn
