@@ -17,18 +17,16 @@ ScreenManager:
         BoxLayout:
             orientation: "vertical"
             spacing: 20
-            padding: 50
+            padding: [50, 15, 50, 50]
             size_hint: 1, 1
+            pos_hint: {"top": 1}
 
             Label:
                 text: "HỆ THỐNG PHÁT HIỆN NGỦ GẬT"
                 font_size: 24
                 color: 0, 0, 0, 1  # chữ đen
                 size_hint_y: None
-                height: "50dp"
-
-            Widget:
-                size_hint_y: 0.5  # spacer để hạ phần còn lại
+                height: "40dp"
 
             Widget:
                 size_hint_y: 1

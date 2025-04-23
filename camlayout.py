@@ -71,8 +71,6 @@ class CamLayout(BoxLayout):
                 right_ear = self.eye_aspect_ratio(right_eye)
                 ear = (left_ear + right_ear) / 2.0
 
-                print(f"EAR hiện tại: {ear:.3f}")
-
                 for (x, y) in left_eye + right_eye:
                     cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)
 
