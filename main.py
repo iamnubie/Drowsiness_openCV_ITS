@@ -11,7 +11,8 @@ class CameraScreen(Screen):
 
 class DrowsinessApp(App):
     def build(self):
-        self.title = "Phát hiện buồn ngủ"
+        self.icon = "icon.png"
+        self.title = "Tỉnh lộ"
         return Builder.load_file("main.kv")  # Load giao diện chính từ file .kv
 
 if __name__ == '__main__':

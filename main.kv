@@ -4,21 +4,43 @@ ScreenManager:
 
 <MenuScreen>:
     name: "menu"
-    BoxLayout:
-        orientation: "vertical"
-        spacing: 20
-        padding: 50
 
-        Label:
-            text: "Phát hiện buồn ngủ!!"
-            font_size: 28
+    FloatLayout:
+        # Hình nền nửa trên
+        Image:
+            source: "logo_uth.png"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: 1, 0.5
+            pos_hint: {"x": 0, "top": 1}
 
-        Button:
-            text: "Khởi động"
-            font_size: 20
-            on_press:
-                app.root.current = "camera"
-                app.root.get_screen("camera").ids.camlayout.start_detect()
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 20
+            padding: 50
+            size_hint: 1, 1
+
+            Label:
+                text: "HỆ THỐNG PHÁT HIỆN NGỦ GẬT"
+                font_size: 24
+                color: 0, 0, 0, 1  # chữ đen
+                size_hint_y: None
+                height: "50dp"
+
+            Widget:
+                size_hint_y: 0.5  # spacer để hạ phần còn lại
+
+            Widget:
+                size_hint_y: 1
+
+            Button:
+                text: "Khởi động"
+                font_size: 20
+                size_hint_y: None
+                height: "60dp"
+                on_press:
+                    app.root.current = "camera"
+                    app.root.get_screen("camera").ids.camlayout.start_detect()
 
 <CameraScreen>:
     name: "camera"
@@ -42,7 +64,7 @@ ScreenManager:
         height: "50dp"
 
     Button:
-        text: "Quay về trang chính"
+        text: "Quay về trang chủ"
         size_hint_y: None
         height: "50dp"
         font_size: 18
