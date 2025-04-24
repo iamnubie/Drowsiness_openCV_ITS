@@ -6,6 +6,11 @@ import mediapipe as mp
 from scipy.spatial import distance as dist
 import pygame
 from threading import Thread
+from kivy.uix.filechooser import FileChooserListView
+from kivy.uix.popup import Popup
+from kivy.uix.image import Image
+import os
+from kivy.app import App
 
 LEFT_EYE = [33, 160, 158, 133, 153, 144]
 RIGHT_EYE = [362, 385, 387, 263, 373, 380]
@@ -97,4 +102,44 @@ class CamLayout(BoxLayout):
         img_texture = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
         img_texture.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
         self.ids.camera_view.texture = img_texture
+
+    def detect_face_in_image(self, image_path):
+        image = cv2.imread(image_path)
+        if image is None:
+            print("[ERROR] Không thể đọc ảnh.")
+            return
+
+        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        results = self.face_mesh.process(rgb)
+
+        if results.multi_face_landmarks:
+            h, w, _ = image.shape
+            for face_landmarks in results.multi_face_landmarks:
+                for lm in face_landmarks.landmark:
+                    x, y = int(lm.x * w), int(lm.y * h)
+                    cv2.circle(image, (x, y), 1, (0, 255, 0), -1)
+
+        # Lưu ảnh vào thư mục "result"
+        import os
+        os.makedirs("result", exist_ok=True)
+        filename = os.path.basename(image_path)
+        output_path = os.path.join("result", f"result_{filename}")
+        cv2.imwrite(output_path, image)
+        print(f"[INFO] Đã lưu ảnh kết quả tại: {output_path}")
+
+        # Hiển thị ảnh lên camera_view
+        buf = cv2.flip(image, 0).tobytes()
+        img_texture = Texture.create(size=(image.shape[1], image.shape[0]), colorfmt='bgr')
+        img_texture.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
+        self.ids.camera_view.texture = img_texture
+        self.ids.status_label.text = "Đã xử lý ảnh tĩnh"
+
+    def back_to_menu(self):
+        # Ngắt camera nếu đang chạy
+        if self.running:
+            self.stop_detect()
+
+        # Trở về màn hình menu
+        app = App.get_running_app()
+        app.root.current = 'menu'
 

@@ -1,6 +1,8 @@
 ScreenManager:
     MenuScreen:
+        name: "menu"
     CameraScreen:
+        name: "camera"
 
 <MenuScreen>:
     name: "menu"
@@ -10,7 +12,7 @@ ScreenManager:
         padding: 50
 
         Label:
-            text: "Phát hiện buồn ngủ!!"
+            text: "HỆ THỐNG PHÁT HIỆN NGỦ GẬT"
             font_size: 28
 
         Button:
@@ -19,6 +21,11 @@ ScreenManager:
             on_press:
                 app.root.current = "camera"
                 app.root.get_screen("camera").ids.camlayout.start_detect()
+        Button:
+            text: "Chọn ảnh từ máy"
+            font_size: 20
+            on_press:
+                root.open_image_chooser()
 
 <CameraScreen>:
     name: "camera"
@@ -46,6 +53,4 @@ ScreenManager:
         size_hint_y: None
         height: "50dp"
         font_size: 18
-        on_press:
-            root.stop_detect()
-            app.root.current = "menu"
+        on_press: root.back_to_menu()
